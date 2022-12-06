@@ -1,10 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import { CreateDepartmentDto } from "./dto/create-department.dto";
+import { Department } from "./entities/department.entity";
 
 @Injectable()
 export class DepartmentService {
+  departaments: Department[] = [];
+
   create(createDepartmentDto: CreateDepartmentDto) {
-    return 'Setor criado: ' + JSON.stringify(createDepartmentDto)
+    const department: Department = { id: 'random_id', ...createDepartmentDto };
+    this.departaments.push(department);
+    return department;
   }
 
   findAll() {
