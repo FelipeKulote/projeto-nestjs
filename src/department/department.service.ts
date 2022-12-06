@@ -4,15 +4,15 @@ import { Department } from "./entities/department.entity";
 
 @Injectable()
 export class DepartmentService {
-  departaments: Department[] = [];
+  departments: Department[] = [];
 
   create(createDepartmentDto: CreateDepartmentDto) {
     const department: Department = { id: 'random_id', ...createDepartmentDto };
-    this.departaments.push(department);
+    this.departments.push(department);
     return department;
   }
 
   findAll() {
-    return 'Setores encontrados.';
+    return this.departments;
   }
 }
