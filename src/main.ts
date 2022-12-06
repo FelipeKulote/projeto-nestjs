@@ -9,12 +9,12 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
-  .setTitle('Projeto de estudos')
-  .setDescription('Projeto realizado para aprendizagem de Nestjs')
-  .setVersion('1.0.0')
-  .addTag('status')
-  .addTag('departments')
-  .build();
+    .setTitle('Projeto de estudos')
+    .setDescription('Projeto realizado para aprendizagem de Nestjs')
+    .setVersion('1.0.0')
+    .addTag('status')
+    .addTag('departments')
+    .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
