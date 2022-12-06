@@ -1,9 +1,14 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 
 @Controller('setor')
 export class SetorController {
   @Get()
   findAll() {
-    return 'Setor criado';
+    return 'Setor encontrado';
+  }
+
+  @Post()
+  create() {
+    return 'Setor criado'
   }
 }
