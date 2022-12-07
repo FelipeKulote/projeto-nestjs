@@ -1,18 +1,20 @@
-import { Injectable } from "@nestjs/common";
-import { CreateDepartmentDto } from "./dto/create-department.dto";
-import { Department } from "./entities/department.entity";
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateDepartmentDto } from './dto/create-department.dto';
+import { Department } from './entities/department.entity';
 
 @Injectable()
 export class DepartmentService {
-  departments: Department[] = [];
+  constructor(private readonly prisma: PrismaService) {}
 
   create(createDepartmentDto: CreateDepartmentDto) {
-    const department: Department = { id: 'random_id', ...createDepartmentDto };
-    this.departments.push(department);
-    return department;
+    const department: Department = { ...createDepartmentDto };
+    return this.prisma.departments.create({
+      data: department,
+    });
   }
 
   findAll() {
-    return this.departments;
+    return this.prisma.departments.findMany();
   }
 }
