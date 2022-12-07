@@ -7,14 +7,20 @@ import { Department } from './entities/department.entity';
 export class DepartmentService {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(createDepartmentDto: CreateDepartmentDto) {
+  create(createDepartmentDto: CreateDepartmentDto): Promise<Department> {
     const department: Department = { ...createDepartmentDto };
     return this.prisma.departments.create({
       data: department,
     });
   }
 
-  findAll() {
+  findAll(): Promise<Department[]> {
     return this.prisma.departments.findMany();
+  }
+
+  findOne(id: string): Promise<Department> {
+    return this.prisma.departments.findUnique({
+      where: { id },
+    });
   }
 }
