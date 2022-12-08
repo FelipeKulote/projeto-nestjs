@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartment } from './dto/update-department.dto';
@@ -19,10 +19,14 @@ export class DepartmentService {
     return this.prisma.departments.findMany();
   }
 
-  findOne(id: string): Promise<Department> {
-    return this.prisma.departments.findUnique({
+  async findOne(id: string): Promise<Department> {
+    const record = await this.prisma.departments.findUnique({
       where: { id },
     });
+    if (!record){
+      throw new NotFoundException(`Id "${id}" não encontrado`)
+    }
+    return record;
   }
 
   update(id: string, updateDepartment: UpdateDepartment): Promise<Department> {
