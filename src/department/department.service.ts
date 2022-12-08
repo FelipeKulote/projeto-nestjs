@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartment } from './dto/update-department.dto';
@@ -10,9 +14,11 @@ export class DepartmentService {
 
   create(createDepartmentDto: CreateDepartmentDto): Promise<Department> {
     const department: Department = { ...createDepartmentDto };
-    return this.prisma.departments.create({
-      data: department,
-    });
+    return this.prisma.departments
+      .create({
+        data: department,
+      })
+      .catch(this.handleError);
   }
 
   findAll(): Promise<Department[]> {
@@ -40,14 +46,25 @@ export class DepartmentService {
     await this.findById(id);
 
     const data: Partial<Department> = { ...updateDepartment };
-    return this.prisma.departments.update({
-      where: { id },
-      data,
-    });
+    return this.prisma.departments
+      .update({
+        where: { id },
+        data,
+      })
+      .catch(this.handleError);
   }
 
   async delete(id: string) {
     await this.findById(id);
     await this.prisma.departments.delete({ where: { id } });
+  }
+
+  handleError(error: Error): undefined {
+    const errorLines = error.message?.split('\n');
+    const lastErrorLine = errorLines[errorLines.length - 1]?.trim();
+
+    throw new UnprocessableEntityException(
+      lastErrorLine || 'Algum erro ocorreu ao executar a operação',
+    );
   }
 }
