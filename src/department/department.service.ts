@@ -47,6 +47,7 @@ export class DepartmentService {
   }
 
   async delete(id: string) {
+    await this.findById(id);
     await this.prisma.departments.delete({ where: { id } });
   }
 }
