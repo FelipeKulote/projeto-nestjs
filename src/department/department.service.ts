@@ -19,17 +19,26 @@ export class DepartmentService {
     return this.prisma.departments.findMany();
   }
 
-  async findOne(id: string): Promise<Department> {
+  async findById(id: string): Promise<Department> {
     const record = await this.prisma.departments.findUnique({
       where: { id },
     });
-    if (!record){
-      throw new NotFoundException(`Id "${id}" não encontrado`)
+    if (!record) {
+      throw new NotFoundException(`Id '${id}' não encontrado`);
     }
     return record;
   }
 
-  update(id: string, updateDepartment: UpdateDepartment): Promise<Department> {
+  async findOne(id: string): Promise<Department> {
+    return this.findById(id);
+  }
+
+  async update(
+    id: string,
+    updateDepartment: UpdateDepartment,
+  ): Promise<Department> {
+    await this.findById(id);
+
     const data: Partial<Department> = { ...updateDepartment };
     return this.prisma.departments.update({
       where: { id },
