@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { DepartmentService } from './department.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Department } from './entities/department.entity';
+import { UpdateDepartment } from './dto/update-department.dto';
 
 @ApiTags('departments')
 @Controller('department')
@@ -33,5 +34,16 @@ export class DepartmentController {
     @Body() createDepartmentDto: CreateDepartmentDto,
   ): Promise<Department> {
     return this.departmentService.create(createDepartmentDto);
+  }
+
+  @Patch(':id')
+  @ApiOperation({
+    summary: 'Editar um departamento',
+  })
+  update(
+    @Param('id') id: string,
+    @Body() updateDepartment: UpdateDepartment,
+  ): Promise<Department> {
+    return this.departmentService.update(id, updateDepartment);
   }
 }
