@@ -32,4 +32,8 @@ export class DepartmentService {
       data,
     });
   }
+
+  async delete(id: string) {
+    await this.prisma.departments.delete({ where: { id } });
+  }
 }

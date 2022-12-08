@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { DepartmentService } from './department.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -20,7 +30,7 @@ export class DepartmentController {
 
   @Get(':id')
   @ApiOperation({
-    summary: 'Encontrar um departamento',
+    summary: 'Encontrar um departamento pelo id',
   })
   findOne(@Param('id') id: string): Promise<Department> {
     return this.departmentService.findOne(id);
@@ -38,12 +48,21 @@ export class DepartmentController {
 
   @Patch(':id')
   @ApiOperation({
-    summary: 'Editar um departamento',
+    summary: 'Editar um departamento pelo id',
   })
   update(
     @Param('id') id: string,
     @Body() updateDepartment: UpdateDepartment,
   ): Promise<Department> {
     return this.departmentService.update(id, updateDepartment);
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({
+    summary: 'Remover um departamento pelo id',
+  })
+  delete(@Param('id') id: string) {
+    this.departmentService.delete(id);
   }
 }
