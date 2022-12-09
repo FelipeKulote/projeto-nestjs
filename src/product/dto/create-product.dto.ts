@@ -16,10 +16,12 @@ export class CreateProductDto {
   })
   description: string;
 
-  @IsNumber()
+  @IsNumber({
+    maxDecimalPlaces: 2,
+  })
   @ApiProperty({
     description: 'Preço do produto',
-    example: '5,50',
+    example: 5.50,
   })
   price: number;
 

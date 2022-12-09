@@ -19,7 +19,17 @@ import { UpdateDepartment } from './dto/update-department.dto';
 @Controller('department')
 export class DepartmentController {
   constructor(private readonly departmentService: DepartmentService) {}
-
+  
+  @Post()
+  @ApiOperation({
+    summary: 'Criar um departamento',
+  })
+  create(
+    @Body() createDepartmentDto: CreateDepartmentDto,
+  ): Promise<Department> {
+    return this.departmentService.create(createDepartmentDto);
+  }
+  
   @Get()
   @ApiOperation({
     summary: 'Listar todos os departamentos',
@@ -36,15 +46,6 @@ export class DepartmentController {
     return this.departmentService.findOne(id);
   }
 
-  @Post()
-  @ApiOperation({
-    summary: 'Criar um departamento',
-  })
-  create(
-    @Body() createDepartmentDto: CreateDepartmentDto,
-  ): Promise<Department> {
-    return this.departmentService.create(createDepartmentDto);
-  }
 
   @Patch(':id')
   @ApiOperation({
