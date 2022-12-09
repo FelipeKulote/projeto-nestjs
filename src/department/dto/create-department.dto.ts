@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsString, IsUrl } from 'class-validator';
 
 export class CreateDepartmentDto {
   @IsString()
@@ -8,4 +8,11 @@ export class CreateDepartmentDto {
     example: 'Elétrica',
   })
   name: string;
+
+  @IsUrl()
+  @ApiProperty({
+    description: 'Imagem para representar o departamento',
+    example: 'http://image.com',
+  })
+  image: string;
 }
