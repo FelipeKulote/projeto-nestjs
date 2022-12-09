@@ -1,26 +1,67 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  constructor(private readonly prisma: PrismaService) {}
+
+  create(createUserDto: CreateUserDto): Promise<User> {
+    const data: User = { ...createUserDto };
+    return this.prisma.user
+      .create({
+        data,
+      })
+      .catch(this.handleError);
   }
 
-  findAll() {
-    return `This action returns all user`;
+  findAll(): Promise<User[]> {
+    return this.prisma.user.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findById(id: string): Promise<User> {
+    const record = await this.prisma.user.findUnique({
+      where: { id },
+    });
+    if (!record) {
+      throw new NotFoundException(`Id '${id}' não encontrado`);
+    }
+    return record;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async findOne(id: string): Promise<User> {
+    return this.findById(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async update(id: string, updateUser: UpdateUserDto): Promise<User> {
+    await this.findById(id);
+
+    const data: Partial<User> = { ...updateUser };
+    return this.prisma.user
+      .update({
+        where: { id },
+        data,
+      })
+      .catch(this.handleError);
+  }
+
+  async delete(id: string) {
+    await this.findById(id);
+    await this.prisma.user.delete({ where: { id } });
+  }
+
+  handleError(error: Error): undefined {
+    const errorLines = error.message?.split('\n');
+    const lastErrorLine = errorLines[errorLines.length - 1]?.trim();
+
+    throw new UnprocessableEntityException(
+      lastErrorLine || 'Algum erro ocorreu ao executar a operação',
+    );
   }
 }

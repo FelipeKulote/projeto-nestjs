@@ -13,6 +13,7 @@ async function bootstrap() {
     .setDescription('Projeto realizado para aprendizagem de Nestjs')
     .setVersion('1.0.0')
     .addTag('status')
+    .addTag('user')
     .addTag('departments')
     .addTag('product')
     .build();
