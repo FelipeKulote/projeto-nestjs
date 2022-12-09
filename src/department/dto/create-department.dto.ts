@@ -5,7 +5,7 @@ export class CreateDepartmentDto {
   @IsString()
   @ApiProperty({
     description: 'Nome do departamento',
-    example: 'Elétrica'
+    example: 'Elétrica',
   })
   name: string;
 }

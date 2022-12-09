@@ -39,10 +39,7 @@ export class ProductService {
     return this.findById(id);
   }
 
-  async update(
-    id: string,
-    updateProduct: UpdateProductDto,
-  ): Promise<Product> {
+  async update(id: string, updateProduct: UpdateProductDto): Promise<Product> {
     await this.findById(id);
 
     const data: Partial<Product> = { ...updateProduct };

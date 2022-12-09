@@ -12,21 +12,21 @@ export class CreateProductDto {
   @IsString()
   @ApiProperty({
     description: 'Descrição do produto',
-    example: 'Lâmpada de Led 9W'
+    example: 'Lâmpada de Led 9W',
   })
   description: string;
 
   @IsNumber()
   @ApiProperty({
     description: 'Preço do produto',
-    example: '5,50'
+    example: '5,50',
   })
   price: number;
 
   @IsUrl()
   @ApiProperty({
     description: 'Url de uma imagem',
-    example: 'http://image.com'
+    example: 'http://image.com',
   })
   image: string;
 }
