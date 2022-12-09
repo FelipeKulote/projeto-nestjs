@@ -11,8 +11,8 @@ datasource db {
 }
 
 model Departments {
-  id   String @id @default(uuid())
-  name String @unique
+  id    String @id @default(uuid())
+  name  String @unique
   image String
 
   createdAt DateTime @default(now()) @map("created_at")
@@ -40,6 +40,7 @@ model User {
   email    String @unique
   password String
   cpf      String @unique
+  image    String
   role     String
 
   createdAt DateTime @default(now()) @map("created_at")
