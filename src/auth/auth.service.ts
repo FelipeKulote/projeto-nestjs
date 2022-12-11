@@ -14,7 +14,6 @@ export class AuthService {
     const password = loginDto.password;
 
     const user = await this.prisma.user.findUnique({ where: { email } });
-    
 
     if (!user) {
       throw new UnauthorizedException('Usuário e/ou senha inválidos');
