@@ -20,8 +20,35 @@ export class OrderService {
           name: createOrderDto.departmentName,
         },
       },
+      products: {
+        connect: createOrderDto.products.map((productId) => ({
+          id: productId,
+        })),
+      },
     };
-    return this.prisma.order.create({ data }).catch(handleError);
+    return this.prisma.order
+      .create({
+        data,
+        select: {
+          id: true,
+          user: {
+            select: {
+              name: true,
+            },
+          },
+          department: {
+            select: {
+              name: true,
+            },
+          },
+          products: {
+            select: {
+              title: true,
+            },
+          },
+        },
+      })
+      .catch(handleError);
   }
 
   findAll() {

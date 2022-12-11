@@ -18,7 +18,7 @@ model Departments {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  Orders Order[]
+  orders Order[]
 
   @@map("departments")
 }
