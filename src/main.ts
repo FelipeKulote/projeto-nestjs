@@ -13,10 +13,12 @@ async function bootstrap() {
     .setDescription('Projeto realizado para aprendizagem de Nestjs')
     .setVersion('1.0.0')
     .addTag('status')
+    .addTag('auth')
     .addTag('user')
     .addTag('departments')
     .addTag('product')
     .addTag('order')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
