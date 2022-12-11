@@ -9,8 +9,12 @@ export class AuthService {
   constructor(private readonly prisma: PrismaService) {}
 
   async login(loginDto: LoginDto): Promise<LoginResponseDto> {
-    const { email, password } = loginDto;
+    // const { email, password } = loginDto;
+    const email = loginDto.email;
+    const password = loginDto.password;
+
     const user = await this.prisma.user.findUnique({ where: { email } });
+    
 
     if (!user) {
       throw new UnauthorizedException('Usuário e/ou senha inválidos');
