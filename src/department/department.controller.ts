@@ -8,14 +8,18 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { DepartmentService } from './department.service';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Department } from './entities/department.entity';
 import { UpdateDepartment } from './dto/update-department.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('departments')
+@UseGuards(AuthGuard())
+@ApiBearerAuth()
 @Controller('department')
 export class DepartmentController {
   constructor(private readonly departmentService: DepartmentService) {}
