@@ -2,13 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsUUID } from 'class-validator';
 
 export class CreateOrderDto {
-  @IsUUID()
-  @ApiProperty({
-    description: 'ID do usuário que está criando o pedido',
-    example: '38bf7930-e13f-4186-b5bb-ff1448284fb1',
-  })
-  userId: string;
-
   @IsString()
   @ApiProperty({
     description: 'Nome do departamento que será direcionado o pedido',
