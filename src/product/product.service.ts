@@ -14,6 +14,9 @@ export class ProductService {
 
   create(createProductDto: CreateProductDto): Promise<Product> {
     const data: Product = { ...createProductDto };
+    if (data.hasOwnProperty("id")){
+      delete data.id;
+    }
     return this.prisma.product
       .create({
         data,
